@@ -20,3 +20,23 @@ var longestConsecutive = function(nums) {
     }
     return Math.max.apply(0,len)
 };
+
+//方法二
+var longestConsecutive = function(nums) {
+        let map={}
+        maxCount=0
+        //将数组去重
+        nums=new Set(nums)
+        for(let value of nums){
+            //从最小的开始查找
+            if(nums.has(value-1)) continue;
+            let curr=value
+            //开始逐步生长
+            while (nums.has(curr+1)){
+                nums.delete(curr+1);
+                curr++
+            }
+            maxCount=Math.max(maxCount,curr-value+1)
+        }
+        return maxCount
+};
