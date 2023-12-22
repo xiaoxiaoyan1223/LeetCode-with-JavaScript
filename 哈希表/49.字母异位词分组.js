@@ -24,3 +24,12 @@ var groupAnagrams = function(strs) {
     //将map中的value转成数组
     return Array.from(map.values())
 };
+//方法二：Map
+var groupAnagrams = function(strs) {
+    var h=new Map,k
+    for(var i=0;i<strs.length;i++){
+        //对当前字符串进行排序并转换为字符串作为 key
+        h.has(k=strs[i].split('').sort().join(''))?h.get(k).push(strs[i]):h.set(k,[strs[i]])
+    }
+    return Array.from(h.values())
+};
