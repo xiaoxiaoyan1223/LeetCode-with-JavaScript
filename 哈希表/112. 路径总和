@@ -16,6 +16,7 @@ var hasPathSum = function(root, targetSum) {
         return false
     }
     targetSum-=root.val
+    //当一个二叉树左右孩子都为空时，即为叶子节点
     if(root.left===root.right){
         return targetSum===0
     }
