@@ -1,0 +1,30 @@
+/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {number[]}
+ */
+var findSubstring = function(s, words) {
+    const len=words[0].length
+    const wordCount={}
+    // 初始化每个单词的数量都为1
+    words.forEach(i=>wordCount[i]=(wordCount[i]||0)+1)
+    console.log(wordCount)
+    const substringLen=len*words.length
+    // 声明一个数组存储结果
+    const res=[]
+    for(let i=0;i<=s.length-substringLen;i++){
+        // 保证每次遍历都是新的map表
+        const tempCount={...wordCount}
+        // 记录本次循环中count的数量
+        let count=words.length
+        // 这里要特别注意j+=len 就是每次都比较一个单词
+        for(let j=i;j<substringLen+i;j+=len){
+            let word=s.slice(j,j+len)
+            if(!(word in wordCount)||tempCount[word]<=0) break
+            tempCount[word]--
+            count--
+        }
+        if(count===0) res.push(i)
+    }
+    return res
+};
