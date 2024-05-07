@@ -1,0 +1,74 @@
+class ListNode {
+    constructor(key,value){
+        this.key=key
+        this.value=value
+        this.next=null
+        this.prev=null
+    }
+}
+class LRUCache{
+    constructor(capacity){
+        this.capacity=capacity
+        this.hash={}
+        this.count=0
+        // 虚拟头结点
+        this.dummyHead = new ListNode()
+        // 虚拟尾结点
+        this.dummyTail = new ListNode()
+        this.dummyHead.next = this.dummyTail
+        this.dummyTail.prev = this.dummyHead
+    }
+    get(key){
+        let node=this.hash[key]
+        if(node==null) return -1
+        this.moveToHead(node)
+        return node.value
+    }
+    put(key,value){
+        let node=this.hash[key]
+        if(node==null){
+            if(this.count==this.capacity){
+                this.removeLRUItem()
+            }
+            let newNode=new ListNode(key,value)
+            this.hash[key]=newNode
+            this.addToHead(newNode)
+            this.count++
+        }else{
+            node.value = value
+            this.moveToHead(node)
+        }
+    }
+
+    moveToHead(node){
+        this.removeFormList(node)
+        this.addToHead(node)
+    }
+    // 如果在表中存在，需要先删除然后添加到表头
+    removeFormList(node){
+        let temp1=node.prev
+        let temp2=node.next
+        temp1.next=temp2
+        temp2.prev=temp1
+    }
+    addToHead(node){
+        node.prev=this.dummyHead
+        node.next=this.dummyHead.next
+        this.dummyHead.next.prev=node
+        this.dummyHead.next=node
+    }
+    removeLRUItem(){
+        // 获得从链表尾部删除
+        let tail=this.popTail()
+        // 在hash表中也删除
+        delete this.hash[tail.key]
+        this.count--
+    }
+    popTail(){
+        // 从虚拟尾结点找到它
+        let tail=this.dummyTail.prev
+        // 删除真实尾结点
+        this.removeFormList(tail)
+        return tail
+    }
+}
