@@ -1,0 +1,34 @@
+/**
+ * // Definition for a Node.
+ * function Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node|null} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+//需要借助队列模拟
+let res=[],queue=[]
+queue.push(root)
+if(root===null) return res
+while(queue.length!==0){
+    let curList=[]
+    // 记录当前层级节点数
+    let length=queue.length
+    // 存放每一层的节点数
+    for(let i=0;i<length;i++){
+        // 把队头节点删除
+        let node=queue.shift()
+        curList.push(node.val)
+        for(item of node.children){
+            item&&queue.push(item)
+        }
+    }
+    res.push(curList)
+}
+    return res
+};
