@@ -8,7 +8,7 @@ var maxAltitude = function(heights, limit) {
     // 定义左右指针 
     let left=0,right=left+limit
     const maxArr=[]
-    let max=-999
+    let max=-Infinity
     for(let i=0;i<heights.length-limit+1;i++){
         for(let j=left;j<right;j++){
             if(heights[j]>max){
@@ -16,7 +16,7 @@ var maxAltitude = function(heights, limit) {
             }
         }
         maxArr.push(max)
-        max=-999
+        max=-Infinity
         left++
         right++
     }
